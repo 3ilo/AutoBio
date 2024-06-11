@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import Home from './components/Home';
 import Secret from './components/Secret';
 import Login from './components/Login';
+import WithAuth from './wrappers/WithAuth';
 
 import './App.css'
 
@@ -22,7 +23,7 @@ function App() {
           <Route path="/memories" element={<p>Memories</p>} />
           <Route path="/explore" element={<p>Explore</p>} />
           <Route path="/home" element={<Home />} />
-          <Route path="/secret" element={<Secret />} />
+          <Route path="/secret" element={<WithAuth component={<Secret />}/>} />
           <Route path="/login" element={<Login />} />
         </Routes>
         <div>

@@ -18,8 +18,12 @@ export default function Login(){
         method: 'POST',
         body: JSON.stringify({email, password}),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Headers': 'origin,content-type,content-length,user-agent,host,accept,authorization',
+          'Access-Control-Allow-Methods': 'OPTIONS,GET',
+          'Access-Control-Allow-Origin': 'http://localhost:3001',
+        },
+        credentials: 'include',
       })
       .then(res => {
         if (res.status === 200) {
