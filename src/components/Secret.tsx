@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function Secret() {
     const [message, setMessage] = useState("");
     useEffect(() => {
-        fetch('http://localhost:3001/api/secret', {
+        fetch('/api/secret', {
             headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Headers': 'origin,content-type,content-length,user-agent,host,accept,authorization',

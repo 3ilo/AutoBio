@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
     const [message, setMessage] = useState("");
     useEffect(() => {
-        fetch('http://localhost:3001/api/home').then(res => res.text())
+        fetch('/api/home').then(res => res.text())
         .then(res => setMessage(res));
     }, [])
     return (
