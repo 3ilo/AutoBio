@@ -9,7 +9,7 @@ export default function withAuth(props: WithAuthProps) {
     const [loading, setLoading] = useState(true);
     const [redirect, setRedirect] = useState(false);
     useEffect(() => {
-        fetch('/checkToken', {credentials: 'include'}).then(res => {
+        fetch('/api/auth/checkToken', {credentials: 'include'}).then(res => {
           if (res.status === 200) {
             setLoading(false);
           } else {

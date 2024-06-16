@@ -14,7 +14,7 @@ export default function Login(){
   }
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch('/api/authenticate', {
+    fetch('/api/auth/authenticate', {
         method: 'POST',
         body: JSON.stringify({email, password}),
         headers: {
