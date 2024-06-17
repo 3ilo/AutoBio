@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import Home from './components/Home';
 import Secret from './components/Secret';
 import Login from './pages/Login';
+import { Landing } from './pages/Landing';
 import WithAuth from './wrappers/WithAuth';
 
 import './App.css'
@@ -19,7 +20,7 @@ function App() {
         <hr />
 
         <Routes>
-          <Route path="/" element={<p>Landing</p>} />
+          <Route path="/" element={<Landing />} />
           <Route path="/contribute" element={<p>Contribute a memory</p>} />
           <Route path="/memories" element={<p>Memories</p>} />
           <Route path="/explore" element={<p>Explore</p>} />
