@@ -1,0 +1,6 @@
+.commonPage {
+    display: flex;
+    justify-content: center;
+    margin-block-end: 3em;
+    align-items: center; 
+}
