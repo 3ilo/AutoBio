@@ -8,8 +8,8 @@ enum AlignmentType {
 }
 
 interface CommonComponentProps { 
-    className: string,
-    alignment: AlignmentType
+    className?: string,
+    alignment?: AlignmentType
 }
 
 interface SectionHeaderProps extends CommonComponentProps {
@@ -25,12 +25,18 @@ interface TextFieldProps extends CommonComponentProps {
 }
 
 interface InputFieldProps extends CommonComponentProps {
-    type: HTMLInputTypeAttribute,
-    value: string,
-    name?: string | undefined, 
-    placeholder?: string | undefined,
-    onChange?: ChangeEventHandler<HTMLInputElement> | undefined
-    required?: boolean | undefined
+    type: HTMLInputTypeAttribute;
+    value: string;
+    name?: string | undefined;
+    placeholder?: string | undefined;
+    onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
+    required?: boolean | undefined;
+}
+
+interface CustomButtonProps extends CommonComponentProps {
+    onClick: () => void;
+    text: string;
+    name?: string;
 }
 
 interface GenericWrapperProps extends CommonComponentProps {
@@ -75,6 +81,18 @@ const InputField = (props: InputFieldProps) => {
     )
 }
 
+const CustomButton = (props: CustomButtonProps) => {
+    return (
+        <button 
+            className={`${ props.className } text alignment${props.alignment}`}
+            name={props.name}    
+            onClick={props.onClick}
+        >
+            {props.text}
+        </button>
+    )
+}
+
 const GenericWrapper = (props: GenericWrapperProps) => {
     return (
         <p className={`${ props.className } generic alignment${props.alignment}`}> 
@@ -83,5 +101,5 @@ const GenericWrapper = (props: GenericWrapperProps) => {
     )
 }
 
-export { SectionHeader, SubHeader, TextField, InputField, GenericWrapper, AlignmentType };
-export type { SectionHeaderProps, SubHeaderProps, TextFieldProps, InputFieldProps, GenericWrapperProps }
+export { SectionHeader, SubHeader, TextField, InputField, GenericWrapper, AlignmentType, CustomButton };
+export type { SectionHeaderProps, SubHeaderProps, TextFieldProps, InputFieldProps, GenericWrapperProps, CustomButtonProps }

@@ -18,7 +18,7 @@ const Landing = () => {
             (err) => console.log(err)
         )
     }, [])
-    return <>TEST</>
+    return <></>
 }
 
 export { Landing }

@@ -1,0 +1,20 @@
+.memories {
+    width: 65%;
+    height: 100vh;
+    background-color: grey;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.goBackButton {
+    max-width: 10%;
+    margin-right: auto;
+    margin-left: 10%;
+}
+
+.goForwardButton {
+    max-width: 10%;
+    margin-left: auto;
+    margin-right: 10%;
+}
