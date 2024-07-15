@@ -5,29 +5,12 @@ import Home from './components/Home';
 import Secret from './components/Secret';
 import Login from './pages/Login';
 import Memories from './pages/Memories';
+import Add from './pages/Add';
 import { Landing } from './pages/Landing';
 import WithAuth from './wrappers/WithAuth';
 
 import './App.css'
 import { GenericPageWrapper } from "./pages/GenericPageWrapper";
-
-// const mems = [
-//   {
-//     title: "test1",
-//     content: "content1",
-//     date: new Date(),
-//   },
-//   {
-//     title: "test2",
-//     content: "content2",
-//     date: new Date(),
-//   },
-//   {
-//     title: "test3",
-//     content: "content3",
-//     date: new Date(),
-//   },
-// ]
 
 function App() {
   return (
@@ -39,7 +22,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/contribute" element={<p>Contribute a memory</p>} />
+          <Route path="/contribute" element={<GenericPageWrapper page={<Add />} />} />
           <Route path="/memories" element={<GenericPageWrapper page={<Memories />} />} />
           <Route path="/explore" element={<p>Explore</p>} />
           <Route path="/home" element={<GenericPageWrapper page={<Home />} />} />
