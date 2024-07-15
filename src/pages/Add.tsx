@@ -1,5 +1,5 @@
 import './styles/Add.css';
-import { AlignmentType, SectionHeader, InputField } from '../components/Commons';
+import { AlignmentType, SectionHeader, InputField, CustomTextArea } from '../components/Commons';
 import { useState } from "react";
 
 export default function Add() {
@@ -8,13 +8,13 @@ export default function Add() {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState<Date | undefined>(undefined);
   
     const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
         setTitle(value)
     }
-    const handleContentChange = (event: React.FormEvent<HTMLInputElement>) => {
+    const handleContentChange = (event: React.FormEvent<HTMLTextAreaElement>) => {
         const value = event.currentTarget.value;
         setContent(value)
     }
@@ -39,7 +39,7 @@ export default function Add() {
             if (res.status === 200) {
                 setTitle("");
                 setContent("");
-                setDate(new Date());
+                setDate(undefined);
                 alert("Your submission has been saved!")
             } else {
                 res.text().then((text) => {
@@ -58,26 +58,15 @@ export default function Add() {
       <div className="add">
         <SectionHeader className={"addDescription"} text={tOverview} 
             alignment={AlignmentType.CENTER}/>
-        <form className="loginForm" onSubmit={onSubmit}>
+        <form className="addForm" onSubmit={onSubmit}>
         <InputField 
             className="titleInput"
             alignment={AlignmentType.CENTER}
             type="text"
             name="title"
-            placeholder="Enter title"
+            placeholder="Give it a title"
             value={title}
             onChange={handleTitleChange}
-            required
-        />
-        <br />
-        <InputField 
-            className="contentInput"
-            alignment={AlignmentType.CENTER}
-            type="text"
-            name="content"
-            placeholder="Enter your content"
-            value={content}
-            onChange={handleContentChange}
             required
         />
         <br />
@@ -87,8 +76,20 @@ export default function Add() {
             type="date"
             name="date"
             placeholder="Enter date"
-            value={date.toISOString().split('T')[0]}
+            value={date?.toISOString().split('T')[0]}
             onChange={handleDateChange}
+            required
+        />
+        <br />
+        <CustomTextArea 
+            className="contentInput"
+            alignment={AlignmentType.CENTER}
+            name="content"
+            placeholder="Describe your memory"
+            value={content}
+            onChange={handleContentChange}
+            rows={20}
+            cols={100}
             required
         />
         <br />
@@ -96,7 +97,7 @@ export default function Add() {
             className="submit"
             alignment={AlignmentType.LEFT}
             type="submit"
-            value="Submit"
+            value="Save"
         />
       </form>
       </div>

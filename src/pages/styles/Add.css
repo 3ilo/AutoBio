@@ -1,0 +1,6 @@
+.addForm {
+    padding-top: 5%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}

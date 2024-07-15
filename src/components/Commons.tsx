@@ -26,11 +26,21 @@ interface TextFieldProps extends CommonComponentProps {
 
 interface InputFieldProps extends CommonComponentProps {
     type: HTMLInputTypeAttribute;
-    value: string;
+    value?: string | undefined;
     name?: string | undefined;
     placeholder?: string | undefined;
     onChange?: ChangeEventHandler<HTMLInputElement> | undefined;
     required?: boolean | undefined;
+}
+
+interface CustomTextAreaProps extends CommonComponentProps {
+    value: string;
+    name?: string | undefined;
+    placeholder?: string | undefined;
+    onChange?: ChangeEventHandler<HTMLTextAreaElement> | undefined;
+    required?: boolean | undefined;
+    rows?: number;
+    cols?: number;
 }
 
 interface CustomButtonProps extends CommonComponentProps {
@@ -81,6 +91,21 @@ const InputField = (props: InputFieldProps) => {
     )
 }
 
+const CustomTextArea = (props: CustomTextAreaProps) => {
+    return (
+        <textarea 
+            className={`${ props.className } text alignment${props.alignment}`}
+            name={props.name}
+            placeholder={props.placeholder}
+            value={props.value}
+            onChange={props.onChange}
+            required={props.required}
+            rows={props.rows}
+            cols={props.cols}
+        />
+    )
+}
+
 const CustomButton = (props: CustomButtonProps) => {
     return (
         <button 
@@ -101,5 +126,5 @@ const GenericWrapper = (props: GenericWrapperProps) => {
     )
 }
 
-export { SectionHeader, SubHeader, TextField, InputField, GenericWrapper, AlignmentType, CustomButton };
-export type { SectionHeaderProps, SubHeaderProps, TextFieldProps, InputFieldProps, GenericWrapperProps, CustomButtonProps }
+export { SectionHeader, SubHeader, TextField, InputField, GenericWrapper, AlignmentType, CustomButton, CustomTextArea };
+export type { SectionHeaderProps, SubHeaderProps, TextFieldProps, InputFieldProps, GenericWrapperProps, CustomButtonProps, CustomTextAreaProps }
