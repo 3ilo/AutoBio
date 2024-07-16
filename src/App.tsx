@@ -22,7 +22,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/contribute" element={<GenericPageWrapper page={<Add />} />} />
+          <Route path="/contribute" element={<GenericPageWrapper page={<WithAuth component={<Add />} />} />} />
           <Route path="/memories" element={<GenericPageWrapper page={<Memories />} />} />
           <Route path="/explore" element={<p>Explore</p>} />
           <Route path="/home" element={<GenericPageWrapper page={<Home />} />} />

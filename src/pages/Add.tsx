@@ -1,6 +1,7 @@
 import './styles/Add.css';
 import { AlignmentType, SectionHeader, InputField, CustomTextArea } from '../components/Commons';
 import { useState } from "react";
+import { addMemory } from '../services/memoriesService'
 
 export default function Add() {
 
@@ -8,7 +9,8 @@ export default function Add() {
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [date, setDate] = useState<Date | undefined>(undefined);
+    const [date, setDate] = useState<Date>(new Date());
+    const [dateChanged, setDateChanged ] = useState(false);
   
     const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
@@ -21,26 +23,20 @@ export default function Add() {
     const handleDateChange = (event: React.FormEvent<HTMLInputElement>) => {
         const value = new Date(event.currentTarget.value);
         setDate(value)
+        setDateChanged(true)
     }
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        fetch('/api/memories/add', {
-            method: 'POST',
-            body: JSON.stringify({title, contents: content, date}),
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Headers': 'origin,content-type,content-length,user-agent,host,accept,authorization',
-              'Access-Control-Allow-Methods': 'OPTIONS,GET',
-              'Access-Control-Allow-Origin': 'http://localhost:3001',
-            },
-            credentials: 'include',
-          })
+        addMemory({title, content, date })
           .then(res => {
             if (res.status === 200) {
                 setTitle("");
                 setContent("");
-                setDate(undefined);
+                setDate(new Date());
+                setDateChanged(false)
                 alert("Your submission has been saved!")
+            } else if (res.status == 401) {
+                window.location.href = "/login";
             } else {
                 res.text().then((text) => {
                     const error = new Error(text);
@@ -76,7 +72,7 @@ export default function Add() {
             type="date"
             name="date"
             placeholder="Enter date"
-            value={date?.toISOString().split('T')[0]}
+            value={dateChanged ? date?.toISOString().split('T')[0] : undefined}
             onChange={handleDateChange}
             required
         />

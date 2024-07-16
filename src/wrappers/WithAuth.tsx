@@ -12,6 +12,9 @@ export default function withAuth(props: WithAuthProps) {
         fetch('/api/auth/checkToken', {credentials: 'include'}).then(res => {
           if (res.status === 200) {
             setLoading(false);
+          } else if (res.status == 401) {
+            setLoading(false);
+            setRedirect(true);
           } else {
             const error = new Error(res.statusText);
             throw error;
@@ -26,7 +29,7 @@ export default function withAuth(props: WithAuthProps) {
         return null;
     }
     if (redirect) {
-        window.location.href = "/";
+        window.location.href = "/login";
         return <></>
     }
     else{

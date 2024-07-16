@@ -2,13 +2,14 @@ import './styles/Memories.css';
 import Memory, { MemoryProps } from '../components/Memory'
 import { AlignmentType, SectionHeader, CustomButton } from '../components/Commons';
 import { useState, useEffect } from "react";
+import { getMemories } from '../services/memoriesService'
 
 export default function Memories() {
 
     const [savedMemories, setSavedMemories] = useState<MemoryProps[]>([])
 
     useEffect(() => {
-      fetch('/api/memories', {credentials: 'include'}).then(res => {
+      getMemories().then(res => { //fetch('/api/memories', {credentials: 'include'})
         if (res.status === 200) {
           res.json().then((data) => {
             try{
@@ -19,6 +20,8 @@ export default function Memories() {
               throw error;
             }
           })
+        } else if (res.status == 401) {
+            window.location.href = "/login";
         } else {
           const error = new Error(res.statusText);
           throw error;
