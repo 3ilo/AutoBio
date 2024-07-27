@@ -1,17 +1,24 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { checkToken } from '../services/authService'
 
 import './styles/NavBar.css';
 
-export default function NavBar() {
-  const [ signedIn, setSignedIn ] = useState(false);
-  useEffect(() => {
+export interface NavbarProps {
+  logoutStatus: boolean;
+  setLogoutStatus: (val: boolean) => void;
+}
+
+export default function NavBar(props: NavbarProps) {
+  const handleCheckToken = () => {
     checkToken().then(
-      (res) => res.status === 200 ? setSignedIn(true) : setSignedIn(false)
+      (res) => res.status === 200 ? props.setLogoutStatus(true) : props.setLogoutStatus(false)
     ).catch(
       (err) => console.error(err)
     )
+  }
+  useEffect(() => {
+    handleCheckToken()
   }, [])
   return (
     <>
@@ -22,7 +29,7 @@ export default function NavBar() {
             <Link to="/contribute">Contribute</Link>
             <Link to="/memories">Memories</Link>
             <Link to="/explore">Explore</Link>
-            { signedIn ? <Link to="/logout">Logout</Link> : <Link to="/login">Login</Link>}
+            { props.logoutStatus ? <Link onClick={handleCheckToken} to="/logout">Logout</Link> : <Link to="/login">Login</Link>}
           </span>
         </div>
       </div>

@@ -9,15 +9,18 @@ import Memories from './pages/Memories';
 import Add from './pages/Add';
 import { Landing } from './pages/Landing';
 import WithAuth from './wrappers/WithAuth';
-
-import './App.css'
+import { useState } from "react"
 import { GenericPageWrapper } from "./pages/GenericPageWrapper";
 
+import './App.css'
+
 function App() {
+  const [ logoutStatus, setLogoutStatus ] = useState(false);
+
   return (
     <BrowserRouter>
       <div className="app">
-        <NavBar />
+        <NavBar logoutStatus={logoutStatus} setLogoutStatus={setLogoutStatus} />
 
         <hr />
 
@@ -29,7 +32,7 @@ function App() {
           <Route path="/home" element={<GenericPageWrapper page={<Home />} />} />
           <Route path="/secret" element={<GenericPageWrapper page={<WithAuth component={<Secret />} />} />} />
           <Route path="/login" element={<GenericPageWrapper page={<Login />} />} />
-          <Route path="/logout" element={<Logout />} />
+          <Route path="/logout" element={<Logout setLogoutStatus={setLogoutStatus}/>} />
         </Routes>
 
       </div>
