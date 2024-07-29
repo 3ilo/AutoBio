@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import GenerateImage from "../components/GenerateImage"
 
 export default function Home() {
     const [message, setMessage] = useState("");
@@ -10,6 +11,7 @@ export default function Home() {
     <div>
         <h1>Home</h1>
         <p>{message}</p>
+        <GenerateImage />
     </div>
     );
 }
