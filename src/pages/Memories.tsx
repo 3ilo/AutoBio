@@ -9,11 +9,11 @@ export default function Memories() {
     const [savedMemories, setSavedMemories] = useState<MemoryProps[]>([])
 
     useEffect(() => {
-      getMemories().then(res => { //fetch('/api/memories', {credentials: 'include'})
+      getMemories().then(res => { 
         if (res.status === 200) {
           res.json().then((data) => {
             try{
-                setSavedMemories(data.map((memPayload: any) => {return {title: memPayload.title, content: memPayload.contents, date: memPayload.date}}))
+                setSavedMemories(data.map((memPayload: any) => {return {title: memPayload.title, content: memPayload.contents, date: memPayload.date, images: memPayload.images}}))
             } catch(err) {
               console.error(err)
               const error = new Error(res.statusText);
@@ -58,7 +58,8 @@ export default function Memories() {
         <Memory 
             title={memoryProps.title} 
             content={memoryProps.content} 
-            date={memoryProps.date}/>
+            date={memoryProps.date}
+            images={memoryProps.images}/>
         )
 
     return (

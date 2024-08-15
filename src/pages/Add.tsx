@@ -27,7 +27,7 @@ export default function Add() {
     }
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        addMemory({title, content, date })
+        addMemory({title, content, date, images: ['https://s3-illustrations-devo.s3.us-west-2.amazonaws.com/1722843631741-milo%40gmail.com-imageoftest.png'] })
           .then(res => {
             if (res.status === 200) {
                 setTitle("");

@@ -1,6 +1,6 @@
 .memories {
     width: 65%;
-    height: 100vh;
+    height: calc(100% + 10vh);
     background-color: grey;
     text-align: center;
     display: flex;

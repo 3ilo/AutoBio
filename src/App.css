@@ -11,4 +11,6 @@
     flex-basis: 100%;
     flex: 1;
 }
-  
+body {
+    min-height: 100vh;
+}

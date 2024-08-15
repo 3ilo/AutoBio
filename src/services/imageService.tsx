@@ -1,7 +1,7 @@
-const baseUrl = 'http://0.0.0.0:8000/api/generate'
+const baseUrl = 'http://0.0.0.0:8000/api'
 
 const generateImage = async (prompt: string) => {
-  return await fetch(baseUrl + '?prompt=' + prompt, {credentials: 'include', 
+  return await fetch(baseUrl + '/generate?prompt=' + prompt, {credentials: 'include', 
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Headers': 'origin,content-type,content-length,user-agent,host,accept,authorization',
@@ -25,9 +25,7 @@ const generatePutImgUrl = function (imgTitle: string) {
     })
 }
 
-const putImage = async (urlPromise: string, payloadPromise: Blob) => {
-  const url = await urlPromise;
-  const payload = await payloadPromise
+const putImage = async (url: string, payload: Blob) => {
   await fetch(url, {
     method: "PUT",
     body: payload,
@@ -41,4 +39,14 @@ const putImage = async (urlPromise: string, payloadPromise: Blob) => {
   });
 }
 
-export { generateImage, generatePutImgUrl, putImage }
+const generateSummary = async (text: string) => {
+  return await fetch(baseUrl + '/summarize?prompt=' + text, {credentials: 'include', 
+    headers: {
+        'Access-Control-Allow-Headers': 'origin,content-type,content-length,user-agent,host,accept,authorization',
+        'Access-Control-Allow-Methods': 'OPTIONS,GET',
+        'Access-Control-Allow-Origin': 'http://0.0.0.0:8000',
+      },
+  })
+}
+
+export { generateImage, generatePutImgUrl, putImage, generateSummary }

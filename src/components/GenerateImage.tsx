@@ -1,15 +1,20 @@
 import { InputField, AlignmentType, CustomButton } from '../components/Commons';
-import { generateImage, generatePutImgUrl, putImage } from '../services/imageService'
-import { useState } from "react";
+import { generateImage, generatePutImgUrl, putImage, generateSummary } from '../services/imageService'
+import { useState, useEffect } from "react";
 import { ColorRing } from "react-loader-spinner";
 
 import './styles/GenerateImage.css';
 
-export default function GenerateImage() {
+export interface GenerateImageProps {
+    text: string
+    title: string
+}
+
+export default function GenerateImage(props: GenerateImageProps) {
     const [prompt, setPrompt] = useState("");
     const [img, setImg] = useState("");
-    const [title, ] = useState("FILLER");
-    const [loading, setLoading] = useState(false);
+    const [title, ] = useState(props.title);
+    const [loading, setLoading] = useState(true);
   
     const handlePromptChange = (event: React.FormEvent<HTMLInputElement>) => {
       const value = event.currentTarget.value;
@@ -57,6 +62,17 @@ export default function GenerateImage() {
         setImg(imageObjectURL);
         setLoading(false);
     }
+
+    const handleGenerateSummary = async () => {
+        const response = await generateSummary(props.text);
+        console.log(response)
+    }
+
+    useEffect(() => {handleGenerateSummary()}, [])
+
+    useEffect(() => {
+        handleRegenerate();
+    }, [prompt])
 
     return (
         <div className="other"> 

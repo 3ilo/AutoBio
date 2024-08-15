@@ -6,6 +6,7 @@ export interface MemoryProps {
     title: string;
     content: string;
     date: Date;
+    images?: Array<string>;
 }
 
 export default function Memory(props: MemoryProps) {
@@ -14,6 +15,7 @@ export default function Memory(props: MemoryProps) {
             <SubHeader text={props.title} alignment={AlignmentType.CENTER} />
             <TextField text={props.date.toString()} alignment={AlignmentType.CENTER} />
             <GenericWrapper component={<>{props.content}</>} alignment={AlignmentType.CENTER}/>
+            {props.images && <img src={props.images[0]}/>}
         </div>
     )
 }
