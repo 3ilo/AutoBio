@@ -1,4 +1,4 @@
-import { InputField, AlignmentType, CustomButton } from '../components/Commons';
+import { CustomButton } from '../components/Commons';
 import { generateImage, generatePutImgUrl, putImage, generateSummary } from '../services/imageService'
 import { useState, useEffect } from "react";
 import { ColorRing } from "react-loader-spinner";
@@ -11,23 +11,23 @@ export interface GenerateImageProps {
 }
 
 export default function GenerateImage(props: GenerateImageProps) {
-    const [prompt, setPrompt] = useState("");
+    // const [prompt, setPrompt] = useState("");
     const [img, setImg] = useState("");
     const [title, ] = useState(props.title);
     const [loading, setLoading] = useState(true);
   
-    const handlePromptChange = (event: React.FormEvent<HTMLInputElement>) => {
-      const value = event.currentTarget.value;
-      setPrompt(value)
-    }
+    // const handlePromptChange = (event: React.FormEvent<HTMLInputElement>) => {
+    //   const value = event.currentTarget.value;
+    //   setPrompt(value)
+    // }
 
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setLoading(true);
-        const imageObjectURL = blobToLink(await (await generateImage(prompt)).blob());
-        setImg(imageObjectURL);
-        setLoading(false);
-    }
+    // const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     setLoading(true);
+    //     const imageObjectURL = blobToLink(await (await generateImage(prompt)).blob());
+    //     setImg(imageObjectURL);
+    //     setLoading(false);
+    // }
 
     const blobToLink = (blob: Blob) => {
         return URL.createObjectURL(blob);
@@ -58,25 +58,27 @@ export default function GenerateImage(props: GenerateImageProps) {
 
     const handleRegenerate = async () => {
         setLoading(true);
-        const imageObjectURL = blobToLink(await (await generateImage(prompt)).blob());
+        const response = await generateSummary(props.text);
+        // console.log(response.text())
+        const imageObjectURL = blobToLink(await (await generateImage(await response.text())).blob());
         setImg(imageObjectURL);
         setLoading(false);
     }
 
-    const handleGenerateSummary = async () => {
-        const response = await generateSummary(props.text);
-        console.log(response)
-    }
+    // const handleGenerateSummary = async () => {
+    //     const response = await generateSummary(props.text);
+    //     console.log(response)
+    // }
 
-    useEffect(() => {handleGenerateSummary()}, [])
+    useEffect(() => {handleRegenerate()}, [])
 
-    useEffect(() => {
-        handleRegenerate();
-    }, [prompt])
+    // useEffect(() => {
+    //     handleRegenerate();
+    // }, [prompt])
 
     return (
         <div className="other"> 
-            <form className="generateImageForm" onSubmit={onSubmit}>
+            {/* <form className="generateImageForm" onSubmit={onSubmit}>
                 <InputField 
                     className="generateImagePrompt"
                     alignment={AlignmentType.LEFT}
@@ -87,7 +89,7 @@ export default function GenerateImage(props: GenerateImageProps) {
                     onChange={handlePromptChange}
                     required
                 />
-            </form>
+            </form> */}
 
             <div className="generateImage"> 
                 {loading ? 

@@ -1,7 +1,8 @@
 import './styles/Add.css';
-import { AlignmentType, SectionHeader, InputField, CustomTextArea } from '../components/Commons';
+import { AlignmentType, SectionHeader, InputField, CustomTextArea, CustomButton } from '../components/Commons';
 import { useState } from "react";
 import { addMemory } from '../services/memoriesService'
+import GenerateImage from '../components/GenerateImage';
 
 export default function Add() {
 
@@ -11,6 +12,7 @@ export default function Add() {
     const [content, setContent] = useState("");
     const [date, setDate] = useState<Date>(new Date());
     const [dateChanged, setDateChanged ] = useState(false);
+    const [showImage, setShowImage] = useState(false);
   
     const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
@@ -27,7 +29,7 @@ export default function Add() {
     }
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        addMemory({title, content, date, images: ['https://s3-illustrations-devo.s3.us-west-2.amazonaws.com/1722843631741-milo%40gmail.com-imageoftest.png'] })
+        addMemory({title, content, date, images: [] })
           .then(res => {
             if (res.status === 200) {
                 setTitle("");
@@ -48,7 +50,11 @@ export default function Add() {
             console.error(err);
             alert('Error submitting memory please try again');
           });
-      }
+    }
+
+    const handleGenerate = () => {
+        setShowImage(true)
+    }
 
     return (
       <div className="add">
@@ -88,13 +94,22 @@ export default function Add() {
             cols={100}
             required
         />
+        {showImage && <GenerateImage title={title} text={content}/>}
         <br />
-        <InputField 
-            className="submit"
-            alignment={AlignmentType.LEFT}
-            type="submit"
-            value="Save"
-        />
+        <div className="row">
+            <CustomButton 
+                className="generate"
+                alignment={AlignmentType.LEFT}
+                text="Generate illustration"
+                onClick={handleGenerate}
+            />
+            <InputField 
+                className="submit"
+                alignment={AlignmentType.RIGHT}
+                type="submit"
+                value="Save"
+            />
+        </div>
       </form>
       </div>
     );
