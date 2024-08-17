@@ -1,6 +1,6 @@
 import { CustomButton } from '../components/Commons';
 import { generateImage, generatePutImgUrl, putImage, generateSummary } from '../services/imageService'
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { ColorRing } from "react-loader-spinner";
 
 import './styles/GenerateImage.css';
@@ -8,26 +8,12 @@ import './styles/GenerateImage.css';
 export interface GenerateImageProps {
     text: string
     title: string
+    imgUrlSetter?: Dispatch<SetStateAction<string>>
 }
 
 export default function GenerateImage(props: GenerateImageProps) {
-    // const [prompt, setPrompt] = useState("");
     const [img, setImg] = useState("");
-    const [title, ] = useState(props.title);
     const [loading, setLoading] = useState(true);
-  
-    // const handlePromptChange = (event: React.FormEvent<HTMLInputElement>) => {
-    //   const value = event.currentTarget.value;
-    //   setPrompt(value)
-    // }
-
-    // const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     setLoading(true);
-    //     const imageObjectURL = blobToLink(await (await generateImage(prompt)).blob());
-    //     setImg(imageObjectURL);
-    //     setLoading(false);
-    // }
 
     const blobToLink = (blob: Blob) => {
         return URL.createObjectURL(blob);
@@ -51,7 +37,10 @@ export default function GenerateImage(props: GenerateImageProps) {
     }
 
     const handleUploadImage = async () => {
-        const signedPutUrl = await handleGetSignedUrl(title + '.png');
+        props.title.replace('?','X')
+        const signedPutUrl = await handleGetSignedUrl(props.title + '.png');
+        const imageUrl = signedPutUrl.split('?')[0]
+        props.imgUrlSetter && props.imgUrlSetter(imageUrl);
         const imgBlob = await linkToBlob();
         putImage(signedPutUrl, imgBlob);
     }
@@ -59,38 +48,15 @@ export default function GenerateImage(props: GenerateImageProps) {
     const handleRegenerate = async () => {
         setLoading(true);
         const response = await generateSummary(props.text);
-        // console.log(response.text())
         const imageObjectURL = blobToLink(await (await generateImage(await response.text())).blob());
         setImg(imageObjectURL);
         setLoading(false);
     }
 
-    // const handleGenerateSummary = async () => {
-    //     const response = await generateSummary(props.text);
-    //     console.log(response)
-    // }
-
     useEffect(() => {handleRegenerate()}, [])
-
-    // useEffect(() => {
-    //     handleRegenerate();
-    // }, [prompt])
 
     return (
         <div className="other"> 
-            {/* <form className="generateImageForm" onSubmit={onSubmit}>
-                <InputField 
-                    className="generateImagePrompt"
-                    alignment={AlignmentType.LEFT}
-                    type="text"
-                    name="genImage"
-                    placeholder="generate"
-                    value={prompt}
-                    onChange={handlePromptChange}
-                    required
-                />
-            </form> */}
-
             <div className="generateImage"> 
                 {loading ? 
                 <div className="loader">

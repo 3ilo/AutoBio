@@ -13,6 +13,7 @@ export default function Add() {
     const [date, setDate] = useState<Date>(new Date());
     const [dateChanged, setDateChanged ] = useState(false);
     const [showImage, setShowImage] = useState(false);
+    const [imageUrl, setImageUrl] = useState("");
   
     const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
@@ -29,7 +30,7 @@ export default function Add() {
     }
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        addMemory({title, content, date, images: [] })
+        addMemory({title, content, date, images: [imageUrl] })
           .then(res => {
             if (res.status === 200) {
                 setTitle("");
@@ -94,7 +95,7 @@ export default function Add() {
             cols={100}
             required
         />
-        {showImage && <GenerateImage title={title} text={content}/>}
+        {showImage && <GenerateImage title={title} text={content} imgUrlSetter={setImageUrl}/>}
         <br />
         <div className="row">
             <CustomButton 

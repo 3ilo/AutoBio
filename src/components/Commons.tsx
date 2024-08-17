@@ -112,6 +112,7 @@ const CustomButton = (props: CustomButtonProps) => {
             className={`${ props.className } text alignment${props.alignment}`}
             name={props.name}    
             onClick={props.onClick}
+            type="button"
         >
             {props.text}
         </button>
