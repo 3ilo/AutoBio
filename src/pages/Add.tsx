@@ -1,8 +1,9 @@
 import './styles/Add.css';
 import { AlignmentType, SectionHeader, InputField, CustomTextArea, CustomButton } from '../components/Commons';
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { addMemory } from '../services/memoriesService'
 import GenerateImage from '../components/GenerateImage';
+import TextEditor from '../components/Editor';
 
 export default function Add() {
 
@@ -14,7 +15,30 @@ export default function Add() {
     const [dateChanged, setDateChanged ] = useState(false);
     const [showImage, setShowImage] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
-  
+    const [editorState, setEditorState] = useState<string>('');
+
+    const textEditorRef = useRef<any>(null);
+
+    const handleEditorChange = (change: string) => {
+        console.log(editorState);
+        setEditorState(change);
+    };
+    const handleInsertImage = (event: any) => {
+        event.preventDefault()
+        console.log(event)
+        const imageUrl = 'https://s3-illustrations-devo.s3.us-west-2.amazonaws.com/1723870172920-milo%40gmail.com-Chess%20is%20the%20best.png'; // Example image URL
+        if (textEditorRef.current) {
+            console.log("test Milo")
+            textEditorRef.current.insertImage(imageUrl); // Insert the image programmatically
+        }
+    };
+    const handleGetEditorContent = (event: any) => {
+        event.preventDefault()
+        if (textEditorRef.current) {
+            const content = textEditorRef.current.getEditorContent(); // Get current editor content
+            console.log(content); // Logs HTML content of the editor
+        }
+    };
     const handleTitleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
         setTitle(value)
@@ -62,6 +86,9 @@ export default function Add() {
         <SectionHeader className={"addDescription"} text={tOverview} 
             alignment={AlignmentType.CENTER}/>
         <form className="addForm" onSubmit={onSubmit}>
+        <button onClick={handleInsertImage}>Insert Image</button>
+        <button onClick={handleGetEditorContent}>Get Editor Content</button>
+        <TextEditor ref={textEditorRef} value={editorState} onChange={handleEditorChange} />
         <InputField 
             className="titleInput"
             alignment={AlignmentType.CENTER}
@@ -104,12 +131,12 @@ export default function Add() {
                 text="Generate illustration"
                 onClick={handleGenerate}
             />
-            <InputField 
+            {/* <InputField 
                 className="submit"
                 alignment={AlignmentType.RIGHT}
                 type="submit"
                 value="Save"
-            />
+            /> */}
         </div>
       </form>
       </div>
